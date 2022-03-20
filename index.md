@@ -527,3 +527,284 @@ export default http
 📦 开箱即用
 
 [https://www.attojs.com/](https://www.attojs.com/)
+
+### 安装 pinia
+
+```bash
+yarn add pinia@next
+```
+
+> Pinia 与 Vuex 的区别：
+
+id 是必要的，它将所使用 store 连接到 devtools。
+创建方式：new Vuex.Store(...)(vuex3)，createStore(...)(vuex4)。
+对比于 vuex3 ，state 现在是一个函数返回对象。
+没有 mutations，不用担心，state 的变化依然记录在 devtools 中。
+
+> 在`main.ts`引入
+
+```ts
+import { createPinia } from 'pinia'
+```
+
+> 创建根存储库并将其传递给应用程序
+
+```ts
+app.use(createPinia())
+```
+
+> 创建 store
+
+```ts
+import { defineStore } from 'pinia'
+
+export const useMainStore = defineStore({
+  id: 'mian',
+  state: () => ({
+    name: '超级管理员',
+  }),
+})
+```
+
+### 组件中使用 store
+
+```vue
+<template>
+  <div>{{ mainStore.name }}</div>
+</template>
+
+<script setup lang="ts">
+import { useMainStore } from '@/store/mian'
+
+const mainStore = useMainStore()
+</script>
+```
+
+### getters
+
+> Pinia 中的 getter 与 Vuex 中的 getter 、组件中的计算属性具有相同的功能
+
+```ts
+import { defineStore } from 'pinia'
+
+export const useMainStore = defineStore({
+  id: 'mian',
+  state: () => ({
+    name: '超级管理员',
+  }),
+  getters {
+    nameLength: (state) => state.name.length,
+  }
+})
+```
+
+### 组件中使用
+
+```vue
+<template>
+  <div>用户名:{{ mainStore.name }}<br />长度:{{ mainStore.nameLength }}</div>
+  <hr />
+  <button @click="updateName">修改store中的name</button>
+</template>
+
+<script setup lang="ts">
+import { useMainStore } from '@/store/mian'
+
+const mainStore = useMainStore()
+
+const updateName = () => {
+  // $patch 修改 store 中的数据
+  mainStore.$patch({
+    name: '名称被修改了,nameLength也随之改变了',
+  })
+}
+</script>
+```
+
+### actions
+
+> 这里与 Vuex 有极大的不同，Pinia 仅提供了一种方法来定义如何更改状态的规则，放弃 mutations 只依靠 Actions，这是一项重大的改变。
+
+- Pinia 让 Actions 更加的灵活：
+
+  - 可以通过组件或其他 action 调用
+  - 可以从其他 store 的 action 中调用
+  - 直接在 store 实例上调用
+  - 支持同步或异步
+  - 有任意数量的参数
+  - 可以包含有关如何更改状态的逻辑（也就是 vuex 的 mutations 的作用）
+  - 可以 $patch 方法直接更改状态属性
+
+```ts
+  import { definestore } from 'paina'
+
+  export const useMainStore = () => {
+    id: 'main',
+    state: () => {
+      // state是一个函数，返回存储在store中的数据
+      name: '超级管理员'
+    }
+    getters: {
+      // 是一个函数对象
+      nameLength: (state) => state.name.length
+    }，
+    actions: {
+      async insertPost(data: string) {
+        // 可以异步
+        // await ajaxRequest(data)
+        this.name = data
+      }
+    }
+  }
+```
+
+### 环境变量配置
+
+vite 提供了两种模式：具有开发服务器的开发模式（development）和生产模式（production）
+
+> 创建.env.development
+
+> 组件中使用
+
+```ts
+console.log(import.meta.env.VITE_APP_WEB_URL)
+```
+
+> 配置 package.json
+
+```json
+    "build:dev": "vue-tsc --noEmit && vite build --mode development",
+    "build:pro": "vue-tsc --noEmit && vite build --mode production",
+```
+
+### 使用组件库 Naive UI
+
+```bash
+yarn add naive-ui
+```
+
+### 字体
+
+```bash
+yarn add vfonts
+```
+
+### 全局配置 Config Provider
+
+```vue
+<n-config-provider :locale="zhCN" :theme="theme">
+    <!-- 容器 -->
+</n-config-provider>
+```
+
+### 自动引入 naive-ui
+
+```ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    vue(),
+    Components({
+      resolvers: [NaiveUiResolver()],
+    }),
+  ],
+})
+```
+
+### Vite 常用基础配置
+
+运行 代理 和 打包 配置
+
+```ts
+
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+    open: true,
+    https: false,
+    proxy: {},
+  },
+  // 生产环境去除debugger
+  build: {
+    terserOptions: {
+      compress: {
+        // eslint-disable-next-line camelcase
+        drop_console: true,
+        // eslint-disable-next-line camelcase
+        drop_debugger: true,
+      },
+    },
+  },
+
+```
+
+### 生产环境生成 .gz 文件
+
+> 开启 gzip 可以极大的压缩静态资源，对页面加载的速度起到了显著的作用。
+
+使用 vite-plugin-compression 可以 gzip 或 brotli 的方式来压缩资源，这一步需要服务器端的配合，vite 只能帮你打包出 .gz 文件。此插件无需配置参数，引入即可。
+
+### 安装 vite-plugin-compression
+
+```bash
+yarn add --dev vite-plugin-compression
+```
+
+### plugins 中添加
+
+```ts
+import viteCompression from 'vite-plugin-compression'
+
+// gzip压缩 生产环境生成 .gz 文件
+viteCompression({
+  verbose: true,
+  disable: false,
+  threshold: 10240,
+  algorithm: 'gzip',
+  ext: '.gz',
+}),
+```
+
+### 传统浏览器支持
+
+```bash
+@vitejs/plugin-legacy
+```
+
+### VueUse hook 库
+
+```bash
+yarn add @vueuse/core
+```
+
+### 使用指南
+
+```bash
+import { useLocalStorage, useMouse, usePreferredDark } from '@vueuse/core'
+
+export default {
+  setup() {
+    // tracks mouse position
+    const { x, y } = useMouse()
+
+    // is user prefers dark theme
+    const isDark = usePreferredDark()
+
+    // persist state in localStorage
+    const store = useLocalStorage(
+      'my-storage',
+      {
+        name: 'Apple',
+        color: 'red',
+      },
+    )
+
+    return { x, y, isDark, store }
+  },
+}
+```

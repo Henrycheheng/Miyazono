@@ -23,7 +23,7 @@ axios.interceptors.request.use(
 )
 
 axios.interceptors.response.use((res) => {
-  if ((res.data.code = 200)) {
+  if (res.data.code === 200) {
     sessionStorage.setItem('token', '')
     // token过期操作
   }
