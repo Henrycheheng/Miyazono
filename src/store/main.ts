@@ -4,6 +4,7 @@ export const useMainStore = defineStore({
   id: 'mian',
   state: () => ({
     name: '超级管理员',
+    password: '123456',
   }),
   getters: {
     nameLength: (state) => state.name.length,
