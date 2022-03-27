@@ -1,7 +1,8 @@
 module.exports = {
   tabWidth: 2,
   jsxSingleQuote: true,
-  jsxBracketSameLine: true,
+  // 如果为 true，则将多行jsx元素的 > 放在最后一行的末尾，而不是单独放在下一行
+  jsxBracketSameLine: false,
   printWidth: 100,
   singleQuote: true,
   semi: false,

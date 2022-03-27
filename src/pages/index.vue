@@ -1,19 +1,16 @@
 <template>
-  <div>LoginComp</div>
-  <div class="login-container"></div>
+  <div></div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, toRefs, SetupContext } from 'vue'
-import { LoginComp } from './LoginComp'
+import { Data } from './Data'
 export default defineComponent({
-  name: 'LoginComp',
+  name: 'HomeComponent',
   components: {},
   props: {},
   setup(props, ctx: SetupContext) {
-    const data: LoginComp = reactive<LoginComp>({
-      username: 'ls',
-    })
+    const data: Data = reactive<Data>({})
     return {
       ...toRefs(data),
     }
