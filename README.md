@@ -245,6 +245,23 @@ yarn lint
 yarn prettier
 ```
 
+### 安装editorconfig for  vs code 插件
+借助vscode的一个插件，可以做到CTRL+S保存一下文件，自动对文件进行LF或CRLF设置。
+首先给vs code安装插件-EditorConfig for Visual Studio Code。
+然后，在项目目录下增加一个相应的配置文件.editorconfig。
+
+```.editorconfig
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+```
+
 ### 配置 husky + lint-staged
 
 使用 husky + lint-staged 助力团队编码规范, husky&lint-staged 安装推荐使用 mrm, 它将根据 package.json 依赖项中的代码质量工具来安装和配置 husky 和 lint-staged，因此请确保在此之前安装并配置所有代码质量工具，如 Prettier 和 ESlint
