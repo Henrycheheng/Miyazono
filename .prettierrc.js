@@ -19,10 +19,11 @@ module.exports = {
   husky: {
     hooks: {
       'pre-commit': 'lint-staged',
+      'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS', // 校验commit时添加的备注信息是否符合我们要求的规范
     },
   },
   // lint-staged，一个仅仅过滤出 Git 代码暂存区文件(被 git add 的文件)的工具
   'lint-staged': {
-    '*.{js,jsx,vue,ts,tsx}': ['yarn lint', 'prettier --write', 'git add'],
+    '*.{js,jsx,vue,ts,tsx}': ['yarn lint', 'yarn prettier --write', 'git add'],
   },
 }
