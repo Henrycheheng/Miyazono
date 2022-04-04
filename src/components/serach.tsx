@@ -8,16 +8,16 @@ const buttonThemeOverrides: ButtonThemeOverrides = {
   textColor: 'rgba(24, 127, 231, 1)',
   borderRadiusMedium: '8px',
 }
-const InputThemeOverrides: InputThemeOverrides = {
+const inputThemeOverrides: InputThemeOverrides = {
   heightMedium: '40px',
   textColor: 'rgba(24, 127, 231, 1)',
 }
 export default defineComponent({
-  name: 'Search',
+  name: 'SearchComp',
   setup(props) {
     return () => (
       <>
-        <n-input theme-overrides={InputThemeOverrides} placeholder='请输入内容'></n-input>
+        <n-input theme-overrides={inputThemeOverrides} placeholder='请输入内容'></n-input>
         <n-button theme-overrides={buttonThemeOverrides}>搜索</n-button>
       </>
     )

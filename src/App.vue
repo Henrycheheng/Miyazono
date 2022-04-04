@@ -2,7 +2,7 @@
 import { useMainStore } from './store/main'
 import { NButton, NInput } from 'naive-ui'
 import { ButtonProps, InputProps } from 'naive-ui'
-import Search from './components/serach'
+import SearchComp from './components/serach'
 
 type ButtonThemeOverrides = NonNullable<ButtonProps['themeOverrides']>
 type InputThemeOverrides = NonNullable<InputProps['themeOverrides']>
@@ -47,7 +47,7 @@ console.log(import.meta.env.VITE_APP_WEB_URL)
     <n-button :theme-overrides="buttonThemeOverrides">{{ 1 }}</n-button>
   </div>
   <div class="test">1</div>
-  <Search />
+  <SearchComp />
 </template>
 
 <style lang="scss">
