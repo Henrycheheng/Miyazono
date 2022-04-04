@@ -5,6 +5,7 @@ export const useMainStore = defineStore({
   state: () => ({
     name: '超级管理员',
     password: '123456',
+    btnStatus: '去注册',
   }),
   getters: {
     nameLength: (state) => state.name.length,

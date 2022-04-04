@@ -1,3 +1,5 @@
 export interface LoginComp {
-  username: string
+  username: string | number
+  password: string | number
+  loginStatus: string
 }

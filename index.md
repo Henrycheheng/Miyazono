@@ -808,3 +808,13 @@ export default {
   },
 }
 ```
+
+### lerna 管理多个包
+
+[lerna](https://www.lernajs.cn/)
+
+### 全局安装 lerna
+
+```bash
+npm install --global lerna
+```
